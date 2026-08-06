@@ -16,6 +16,8 @@ dependencies = [
     "pydantic",
     "pydantic-settings",
     "python-dotenv",
+    "ucimlrepo",
+    "openpyxl",
 ]
 
 [project.optional-dependencies]

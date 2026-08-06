@@ -1,6 +1,5 @@
 import pandas as pd
 from pandas.api import types as pdt
-from eda_agent.schemas.dataset import ColumnProfile, DatasetProfile
 import warnings
 
 CATEGORICAL_CARDINALITY_RATIO = 0.05
@@ -46,17 +45,3 @@ def infer_column_type(series: pd.Series) -> str:
 
 def infer_schema(frame: pd.DataFrame) -> dict[str, str]:
     return {column: infer_column_type(frame[column]) for column in frame.columns}
-
-def build_profile(frame: pd.DataFrame) -> DatasetProfile:
-    schema = infer_schema(frame)
-    columns = [
-        ColumnProfile(
-            name=name,
-            inferred_type=schema[name],
-            dtype=str(frame[name].dtype),
-            n_missing=int(frame[name].isna().sum()),
-            n_unique=int(frame[name].nunique(dropna=True)),
-        )
-        for name in frame.columns
-    ]
-    return DatasetProfile(n_rows=len(frame), n_columns=frame.shape[1], columns=columns)
